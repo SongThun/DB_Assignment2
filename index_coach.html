@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="main.css">
+  <title>Navbar</title>
+  <style>
+
+    .h1_pa{
+      display:inline-block;
+    }
+    .h1_pa_add{
+      display:inline-block;
+      margin-left:1025px;
+      font-size:20px;
+      font-style: normal;
+      border-radius: 8px;
+      border-width: 2px;
+      border-color: black;
+      background-color: #55e2c6;
+      color:white;
+      height: 45px;
+      width:330px;
+      text-align: center;
+      align-items: center;
+      transition:.15s;
+    }
+    .h1_pa_add:hover{
+      font-size:21px ;
+    }
+    .h1_pa_add:active{
+      opacity:.3;
+    }
+    .table_emp{
+      border-collapse: collapse;
+      margin:25px 0;
+      font-size: 0.9em;
+      min-width:1500px;
+      border-radius:5px 5px 0 0;
+      overflow:hidden;
+      box-shadow: 0 0 20px rgba(0,0,0,.15);
+    }
+    .attribute{
+      width:100px;
+      margin-right:0px;
+    }
+    .table_emp thead tr{
+      background-color: #009879;
+      color:white;
+      text-align:left;
+      font-family:bold;
+    }
+    .table_emp th,
+    .table_emp td {
+      padding:12px 15px;
+    }
+    .table_emp tbody tr{
+      border-bottom: 1px solid #dddddd;
+    }
+    .table_emp tbody tr:nth-of-type(even){
+      background-color: #f3f3f3;
+    }
+    .table_emp tbody tr:last-of-type{
+      border-bottom: #009879;
+    }
+    .table_emp tbody tr.active-row{
+      font-weight:bold;
+      color:#009879;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <a href="#" class="logo">CC02_N3</a>
+    <nav class="navbar">
+      <a href="index.html">Home</a>
+      <a href="#">Settings</a>
+      <a href="#">Account</a>
+    </nav>
+  </header>
+  <div class="sidebar" style="
+    background-color: bisque;
+    position:fixed;
+    left:0;
+    bottom:0;
+    top:87px;
+    height:100%;
+    width:12%;
+    border-right-width: 3px;
+    border-right-style: solid;
+    border-right-color: rgb(234, 234, 234);
+  ">
+    <div class="container1">
+      <a class="bt1" href="index_employee.html">Employee</a>
+      <a class="bt1" href="#Manage_Court">Manage Court</a>
+      <a class="bt1" href="index_training_program.html">Training Program</a>
+      <a class="bt1" href="#Product">Product</a>
+      <a class="bt1" href="#Customer">Customer</a>
+    </div>
+  </div>
+  <div class="container_back" style="
+    position:relative;
+    top:0;
+    left:0;
+    text-align: left;
+  ">
+    <a href="index_employee.html" class="back_button">Back</a>
+    <div class="container_table_emp">
+      <table>
+        <h1 class="h1_name"><p class="h1_pa">Coach</p>  <span class="h1_pa_add"><a>Add new Coach</a></span></h1>
+        <table class="table_emp">
+          <thead>
+            <tr>
+              <th class="attribute">SSN</th>
+              <th class="attribute">Staff ID</th>
+              <th class="attribute">Name</th>
+              <th class="attribute">Email</th>
+              <th class="attribute">Address</th>
+              <th class="attribute">Date of Birth</th>
+              <th class="attribute">Job_title</th>
+              <th class="attribute">Specilization</th>
+              <th class="attribute">Certification</th>
+              <th class="attribute">Physical Assessment</th>
+              <th class="attribute">Salary Month</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>012</td>
+              <td>123456789</td>
+              <td>Haha</td>
+              <td>haha@gmail.com</td>
+              <td>HCM City</td>
+              <td>01/01/2000</td>
+              <td>Facility Manager</td>
+              <td>3</td>
+              <td>Bachelor</td>
+              <td>80-80-80</td>
+              <td>20.000.000 M</td>
+            </tr>
+          </tbody>
+        </table>
+      </table>
+    </div>
+  </div>
+  <script>
+    console.log(document.querySelector('navb'));
+  </script>
+</body>
+</html>

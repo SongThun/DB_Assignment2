@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="main.css">
+  <title>Navbar</title>
+  <style>
+    
+  </style>
+</head>
+<body>
+  <header class="header">
+    <a href="#" class="logo">CC02_N3</a>
+    <nav class="navbar">
+      <a href="index.html">Home</a>
+      <a href="#">Settings</a>
+      <a href="#">Account</a>
+    </nav>
+  </header>
+  <div class="sidebar" style="
+    background-color: bisque;
+    position:fixed;
+    left:0;
+    bottom:0;
+    top:87px;
+    height:100%;
+    width:12%;
+    border-right-width: 3px;
+    border-right-style: solid;
+    border-right-color: rgb(234, 234, 234);
+  ">
+    <div class="container1">
+      <a class="bt1" href="index_employee.html">Employee</a>
+      <a class="bt1" href="index_training_program.html">Manage Court</a>
+      <a class="bt1" href="index_training_program.html">Training Program</a>
+      <a class="bt1" href="#Product">Product</a>
+      <a class="bt1" href="#Customer">Customer</a>
+    </div>
+  </div>
+  <div class="employee" style="
+  display:grid;
+  grid-template-columns: 700px 700px;
+  position:fixed;
+  top:300px;
+  left:330px;
+  ">
+    <div class="div_emp2" style="
+      display:grid;
+      grid-template-rows: 350px 350px;
+    ">
+      <div class="div_emp"><a class="p_empm" href="index_facility_manager.html">Facility Manager</a></div>
+      <div class="div_emp"><a class="p_empr" href="index_receptionist.html">Receptionist</a></div>
+    </div>
+
+    <div class="div_emp2" style="
+      display:grid;
+      grid-template-rows: 350px 350px;
+    ">
+      <div class="div_emp"><a class="p_emps" href="index_cleaning_staff.html">Cleaning Staff</a></div>
+      <div class="div_emp"><a class="p_empc" href="index_coach.html">Coach</a></div>
+    </div>
+
+  </div>
+  <script>
+    console.log(document.querySelector('navb'));
+  </script>
+</body>
+</html>
