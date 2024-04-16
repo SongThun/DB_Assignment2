@@ -1,0 +1,19 @@
+/* .table thead th{
+    text-align: center;
+    align-self: center;
+} */
+.table-scrollable-lg{
+    height: 78vh;
+    overflow-y: scroll;
+}
+.table-scrollable-md{
+    height: 70vh;
+    overflow-y: scroll;
+}
+.table-scrollable-sm{
+    height: 60vh;
+    overflow-y: scroll;
+}
+/* .action-field {
+    text-align: center;
+} */
