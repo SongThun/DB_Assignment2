@@ -1,5 +1,6 @@
 # DB_Assignment2
-## Client side
+## Setup
+### Client side
 create vite-project
 ```
 npm create vite@latest
@@ -24,7 +25,7 @@ overwrite the files then run with
 npm run dev
 ```
 
-## Server side
+### Server side
 create server directory
 ```
 mkdir server
@@ -54,3 +55,7 @@ overwrite the files then run with
 ```
 npm start
 ```
+
+# Components guide
+![Normal Page](normalPage.png)
+![Modal](modal.png)
