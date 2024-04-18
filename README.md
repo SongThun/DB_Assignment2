@@ -30,6 +30,7 @@ In project folder, create server directory
 ```
 mkdir server
 cd server
+npm init -y
 ```
 install dependencies
 ```
