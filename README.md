@@ -1,7 +1,7 @@
 # DB_Assignment2
 ## Setup
 ### Client side
-create vite-project
+In project folder, create vite-project
 ```
 npm create vite@latest
 ```
@@ -26,7 +26,7 @@ npm run dev
 ```
 
 ### Server side
-create server directory
+In project folder, create server directory
 ```
 mkdir server
 cd server
