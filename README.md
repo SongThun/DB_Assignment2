@@ -4,6 +4,10 @@
 database.js: 
 * function createDatabase(): check login user (import in AuthController.js)
 * connect(): give Model access to variable db (import in Model.js and Rental.js)
+MySQL:
+* create user 'sManager'
+* GRANT privileges to 'sManager'
+
 
 ### client
 Login.jsx:
