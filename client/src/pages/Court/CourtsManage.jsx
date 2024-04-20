@@ -8,7 +8,7 @@ import axios from 'axios'
 const CourtsManage = () => {
   axios.defaults.withCredentials=true;
   
-  const main_http = 'http://localhost:8080/court-manage/court';
+  const main_http = 'http://localhost:8080/court-manage/court/';
   const constraints = {
     court_id: {
       type: "number",
@@ -37,7 +37,7 @@ const CourtsManage = () => {
         if (msg.includes('Duplicate entry'))
           alert('Duplicate entry for court_id (primary key)');
       }
-      else reloadData(res.data)
+      else reloadData(res.data, true)
     })
     .catch(err => console.log(err));
   }
@@ -54,7 +54,7 @@ const CourtsManage = () => {
         if (msg.includes('Duplicate entry'))
           alert('Duplicate entry for court_id (primary key)');
       }
-      else reloadData(res.data)
+      else reloadData(res.data, false)
     })
     .catch(err => console.log(err));
   }
