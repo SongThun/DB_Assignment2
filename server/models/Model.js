@@ -1,8 +1,9 @@
-import db from '../database.js'
+import {connect} from '../database.js'
 
 
 const Model = {
   getAttributes: async function(table) {
+    const db = connect();
     let sql = `SELECT column_name, data_type
               FROM information_schema.columns
               WHERE table_schema = 'badminton_court_db'
@@ -16,6 +17,7 @@ const Model = {
     return attributes;
   },
   getPrimaryKeys: async function(table) {
+    const db = connect();
     let sql = `SELECT column_name
               FROM information_schema.columns
               WHERE column_key = "PRI" 
@@ -30,6 +32,7 @@ const Model = {
     return primaryKeys;
   },
   display: async function(table, attrFilter, attrSort) {
+    const db = connect();
     const attributes = await this.getAttributes(table);
     let sql = `SELECT `
     for(const key in attributes) {
@@ -68,6 +71,7 @@ const Model = {
   },
   
   create: async function(table, values) {
+    const db = connect();
     let sql = `INSERT INTO ${table}(`;
     for (const key in values) {
       sql += `${key},`
@@ -86,6 +90,7 @@ const Model = {
   },
 
   update: async function(table, primaryKeys, newValues) {
+    const db = connect();
     let sql = `UPDATE ${table} SET `;
     for (const key in newValues) {
       sql += key + '=' + `'${newValues[key]}'` + ",";
@@ -104,6 +109,7 @@ const Model = {
   },
 
   delete: async function(table, primaryKeys) {
+    const db = connect();
     let sql = `DELETE FROM ${table} WHERE `;
     for (const pk in primaryKeys) {
       sql += `${pk} = '${primaryKeys[pk]}' AND `;
