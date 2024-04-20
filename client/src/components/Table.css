@@ -14,6 +14,6 @@
     height: 60vh;
     overflow-y: scroll;
 }
-/* .action-field {
-    text-align: center;
-} */
+.new-record {
+    background: #f0eeee;
+}

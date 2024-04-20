@@ -7,11 +7,12 @@ import loginAlert from './loginAlert.js';
 import DataTitle from './DataTitle.jsx';
 
 const Table = ({  table_size, table,
-                  constraints, feedback, 
+                  labels, constraints, feedback, 
                   main_http, 
                   handleEdit, handleDelete,
                   submitEdit, submitAdd,
-                  crud, rental, data}) => {
+                  crud, rental, editCondition
+                  }) => {
   
   axios.defaults.withCredentials=true;
 
@@ -27,43 +28,55 @@ const Table = ({  table_size, table,
   // FILTER
   const [distinct, setDistinct] = useState({});
   const [filters, setFilters] = useState({});
-  const [sortby, setSortby] = useState({})
+  const [sortby, setSortby] = useState({});
 
-  // if (data) {
-  //   setRecords(data.result);
-  //   setAttributes(data.attributes);
-  //   setDistinct(data.distinct);
-  //   setPk(data.primaryKeys);
-  // }
+  const [noAllowEdit, setNoAllowEdit] = useState([]);
+
+  const getData = async () => {
+    
+  };
+  const setEditRecord = (data) => {
+    if (editCondition) {
+      setNoAllowEdit(() => {
+        let noEditItem = [];
+        data.forEach((record, i) => {
+          if (!editCondition(record)) noEditItem.push(record);
+        });
+        return noEditItem;
+      });
+    }
+  }
 
   useEffect(() => {
     loginAlert();
     if (rental && !crud) return; 
     axios.get(main_http)
-      .then(res => {
-        if (res.data.err) console.log(res.data.err);
-        else {
-          setRecords(res.data.result);
-          setDistinct(res.data.distinct);
-          setFilters(JSON.parse(JSON.stringify(res.data.distinct)));
-          setAttributes(res.data.attributes);
-          setPk(() => {
-            let initialPk = {};
-            res.data.primaryKeys.forEach((key) => {
-              initialPk[key] = '';
-            });
-            return initialPk;
+    .then(res => {
+      if (res.data.err) {
+        console.log(res.data.err);
+      } else {
+        setRecords(res.data.result);
+        setDistinct(res.data.distinct);
+        setFilters(JSON.parse(JSON.stringify(res.data.distinct)));
+        setAttributes(res.data.attributes);
+        setPk(() => {
+          let initialPk = {};
+          res.data.primaryKeys.forEach((key) => {
+            initialPk[key] = '';
           });
-          setValues(() => {
-            let initialAttr = {};
-            attributes.forEach((key) => {
-              initialAttr[key] = '';
-            });
-            return initialAttr;
+          return initialPk;
+        });
+        setValues(() => {
+          let initialAttr = {};
+          attributes.forEach((key) => {
+            initialAttr[key] = '';
           });
-        }
-      })
-      .catch(err => console.log(err));
+          return initialAttr;
+        });
+        setEditRecord(res.data.result);
+      }
+    })
+    .catch(err => console.log(err));
   }, []);
 
   const defaultEdit = (record) => {
@@ -84,19 +97,37 @@ const Table = ({  table_size, table,
     Object.keys(pk).forEach((key) => {
       params += `${record[key]}/`;
     })
-    axios.delete(main_http + params)
-    .then(res => {
-      if (res.data.err) {
-        console.log(res.data.err);
-      }
-      else {
-        reloadData(res.data);
-      }
-    })
-    .catch(err => console.log(err))
+    
+    if (confirm(`Are you sure you want to delete this item?`)) {
+      axios.delete(main_http + params)
+      .then(res => {
+        if (res.data.err) {
+          console.log(res.data.err);
+        }
+        else {
+          reloadData(res.data);
+        }
+      })
+      .catch(err => console.log(err))
+    }
+    
   }
-
-  const reloadData = (data) => {
+  
+  const reloadData = (data, add) => {
+    const index = data.findIndex((record)  =>{
+      for (const key in pk) {
+        if (record[key] != values[key]) return false;
+      }
+      return true;
+    })
+    if (index !== -1) {
+      data[index].className="new-record";
+      if (add)  {
+        let targetObject = data.splice(index, 1)[0]; // Remove the object from the array
+        data.unshift(targetObject); // Add the object to the beginning of the array
+      }
+    }
+   
     setRecords(data);
     setShow(false);
     setValidated(false);
@@ -107,6 +138,7 @@ const Table = ({  table_size, table,
       });
       return initialAttr;
     })
+    setEditRecord(data);
   }
 
   const toggleFilter = (attribute, value) => {
@@ -192,19 +224,21 @@ const Table = ({  table_size, table,
             <tbody>
               { 
                 records.map((record, rid) => {
-                  return <tr key={rid}>
+                  return <tr key={rid} className={record.className ? record.className : ""}>
                       {attributes.map((attr, aid) => {
                           return <td key={aid}>{record[attr]}</td>
                       })}
                       {
                         crud && 
                         <td className="action-field">
-                            <button className="btn" onClick={() => { 
-                              if (handleEdit) handleEdit(record);
-                              else defaultEdit(record);
-                            }}>
+                            { !noAllowEdit.includes(record) && 
+                              <button className="btn" onClick={() => { 
+                                if (handleEdit) handleEdit(record);
+                                else defaultEdit(record);
+                              }}>
                               <i className='bx bxs-edit-alt'></i>
                             </button>
+                            }
                             <button className="btn" 
                               onClick={() => {
                                 if (handleDelete) handleDelete(record);
@@ -240,6 +274,7 @@ const Table = ({  table_size, table,
         edit={edit}
         table={table}
         attributes={attributes}
+        labels={labels ? labels : attributes}
         constraints={constraints}
         feedback={feedback}
         show={show}
