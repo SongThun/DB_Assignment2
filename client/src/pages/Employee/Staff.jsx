@@ -26,8 +26,7 @@ const Staff = () => {
       pattern: "[0-9]{12}"
     },
     email: {
-      type: "email",
-      pattern: "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+      type: "email"
     },
     dob: {
       type: "date",
@@ -49,7 +48,7 @@ const Staff = () => {
         if (msg.includes('Duplicate entry'))
           alert('Duplicate entry for court_id (primary key)');
       }
-      else reloadData(res.data)
+      else reloadData(res.data, true)
     })
     .catch(err => console.log(err));
   }
@@ -61,12 +60,13 @@ const Staff = () => {
     }
     axios.put(main_http + params, values)
     .then(res => {
+      console.log(res);
       if (res.data.err) {
         const msg = res.data.err.sqlMessage;
         if (msg.includes('Duplicate entry'))
           alert('Duplicate entry for staff_id (primary key)');
       }
-      else reloadData(res.data)
+      else reloadData(res.data, false)
     })
     .catch(err => console.log(err));
   }

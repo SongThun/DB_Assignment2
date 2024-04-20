@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import './Login.css'
@@ -11,6 +11,23 @@ const Login = () => {
   const [msg, setMsg] = useState("");
 
   const navigate = useNavigate();
+  useEffect(() => {
+    if (sessionStorage.username) {
+      if (confirm("You're already login. Consider log out first?")) {
+        axios.post('http://localhost:8080/auth/logout')
+        .then(res => {
+          if (res.data === 'success') {
+            sessionStorage.clear();
+          }
+        })
+        .catch(err => console.log(err));
+      }
+      else {
+        navigate('/');
+      }
+    }
+  }, [])
+
   const validate = (e) => {
     e.preventDefault();
     axios.post('http://localhost:8080/auth/login', values)
