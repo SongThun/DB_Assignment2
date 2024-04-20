@@ -6,6 +6,9 @@ database.js:
 * connect(): give Model access to variable db (import in Model.js and Rental.js)
 
 ### client
+Login.jsx:
+* when user access through router '.../login', if not logout beforehand than confirm their logout
+  
 Table.jsx: 
 * reloadData(data, add): add boolean 'add' to indicate the action belonged to 'SubmitAdd' or 'SubmitEdit'
   if (add) then move the record to the top
