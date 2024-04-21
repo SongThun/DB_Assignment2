@@ -26,11 +26,26 @@ const Staff = () => {
       pattern: "[0-9]{12}"
     },
     email: {
-      type: "email"
+      type: "email",
+      required: true
     },
     dob: {
       type: "date",
+      required: true,
       max: moment(new Date()).format('YYYY-MM-DD')
+    },
+    job_title: {
+      type: "text",
+      enum: ['Receptionist','Coach','Cleaning Staff','Facilities Manager'],
+      required: true
+    },
+    address:{
+      type: "text",
+      required: true
+    },
+    name: {
+      type: "text",
+      required: true
     }
   }
 
@@ -45,10 +60,17 @@ const Staff = () => {
     .then(res => {
       if (res.data.err) {
         const msg = res.data.err.sqlMessage;
-        if (msg.includes('Duplicate entry'))
-          alert('Duplicate entry for court_id (primary key)');
+        console.log(msg)
+        if (msg.includes('staff.PRIMARY'))
+          alert('Duplicate entry for Staff ID!');
+        if (msg.includes('staff_jobtitle')) {
+          alert('Invalid job title!');
+        }
+        if (msg.includes('staff.ssn')){
+          alert('Duplicate entry for Staff SSN!');
+        }
       }
-      else reloadData(res.data)
+      else reloadData(res.data,true)
     })
     .catch(err => console.log(err));
   }
@@ -63,24 +85,26 @@ const Staff = () => {
       console.log(res);
       if (res.data.err) {
         const msg = res.data.err.sqlMessage;
+        console.log(msg)
         if (msg.includes('Duplicate entry'))
           alert('Duplicate entry for staff_id (primary key)');
       }
-      else reloadData(res.data)
+      else reloadData(res.data,false)
     })
     .catch(err => console.log(err));
-  }
+  };
+  const header=['SID','SSSN','Full Name','Email','Address','DOB','Role']
 
   return (
     <div className="container-fluid min-vh-100">
         <div className="row">
-					<div className="col-2 bg-dark vh-100 sticky-start">
+				
 						<Sidebar active_item="Employee"/>
-					</div>
+					
 
-					<div className="col container-fluid">
+					<div className="col background1 container-fluid">
 						<div className="sticky-top border-bottom mb-4 container-fluid">
-              <Navbar href=""/>
+              <Navbar href="/" goBack="true"/>
             </div>
 
 						<div>
@@ -92,6 +116,7 @@ const Staff = () => {
                 main_http={main_http}
                 submitEdit={SubmitEdit}
                 submitAdd={SubmitAdd}
+                header={header}
                 crud="true"
               />
 						</div>

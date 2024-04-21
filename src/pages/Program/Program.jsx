@@ -46,7 +46,7 @@ const Program = () => {
         if (msg.includes('Duplicate entry'))
           alert('Duplicate entry for court_id (primary key)');
       }
-      else reloadData(res.data)
+      else reloadData(res.data,true)
     })
     .catch(err => console.log(err));
   }
@@ -63,21 +63,21 @@ const Program = () => {
         if (msg.includes('Duplicate entry'))
           alert('Duplicate entry for primary key');
       }
-      else reloadData(res.data)
+      else reloadData(res.data,false)
     })
     .catch(err => console.log(err));
-  }
+  };
+  const header=['Type','SDate','EDate','Schedule','Status','Fee','MoA','Coach ID']
 
   return (
     <div className="container-fluid min-vh-100">
         <div className="row">
-					<div className="col-2 bg-dark vh-100 sticky-start">
+					
 						<Sidebar active_item="Training Program"/> 
-					</div>
-
-					<div className="col container-fluid">
+					
+					<div className="col background1 container-fluid">
 						<div className="sticky-top border-bottom mb-4 container-fluid">
-              <Navbar href="/court" goBack="true"/>
+              <Navbar href="/" goBack="true"/>
             </div>
 
 						<div>
@@ -89,6 +89,7 @@ const Program = () => {
                 main_http={main_http}
                 submitEdit={SubmitEdit}
                 submitAdd={SubmitAdd}
+                header={header}
                 crud="true"
               />
 						</div>

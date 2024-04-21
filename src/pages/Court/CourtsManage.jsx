@@ -58,15 +58,18 @@ const CourtsManage = () => {
     })
     .catch(err => console.log(err));
   }
+  const header=['Court ID','Type','RentalPrice/Hour','Running Cost/Month']
+  ;
+  
 
   return (
     <div className="container-fluid min-vh-100">
         <div className="row">
-					<div className="col-2 bg-dark vh-100 sticky-start">
+					
 						<Sidebar active_item="Court"/>
-					</div>
+					
 
-					<div className="col container-fluid">
+					<div className="col background1 container-fluid">
 						<div className="sticky-top border-bottom mb-4 container-fluid">
               <Navbar href="/court-manage" goBack="true"/>
             </div>
@@ -80,6 +83,7 @@ const CourtsManage = () => {
                 main_http={main_http}
                 submitEdit={SubmitEdit}
                 submitAdd={SubmitAdd}
+                header={header}
                 crud="true"
               />
 						</div>

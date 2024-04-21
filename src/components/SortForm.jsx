@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form'
 
 const SortForm = ({attributes, selectedValues, handleSort, onToggle, onToggleSwitch}) => {
   return (
-    <Form className="">
+    <Form className="list-group ">
       <h4>Sort by</h4>
       {
         attributes.map((attr, id) => {

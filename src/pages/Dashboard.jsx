@@ -18,9 +18,7 @@ const Dashboard = () => {
   return (
     <div className="container-fluid min-vh-100" >
         <div className="row">
-            <div className="col-2 bg-dark vh-100">
               <Sidebar/>
-            </div>
             <div className="col background container-fluid">
                 <div className="sticky-top border-bottom mb-4 container-fluid"><Navbar/></div>
                 <div className="">

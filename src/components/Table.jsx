@@ -6,9 +6,9 @@ import ModalForm from './ModalForm.jsx';
 import loginAlert from './loginAlert.js';
 import DataTitle from './DataTitle.jsx';
 
-const Table = ({  table_size, table,
+const Table = ({  table_size, table, modal_attributes,
                   labels, constraints, feedback, 
-                  main_http, 
+                  main_http, header,
                   handleEdit, handleDelete,
                   submitEdit, submitAdd,
                   crud, rental, editCondition
@@ -97,19 +97,34 @@ const Table = ({  table_size, table,
     Object.keys(pk).forEach((key) => {
       params += `${record[key]}/`;
     })
-    axios.delete(main_http + params)
-    .then(res => {
-      if (res.data.err) {
-        console.log(res.data.err);
-      }
-      else {
-        reloadData(res.data);
-      }
-    })
-    .catch(err => console.log(err))
+    if (confirm(`Are you sure you want to delete this item?`)) {
+      axios.delete(main_http + params)
+      .then(res => {
+        if (res.data.err) {
+          console.log(res.data.err);
+        }
+        else {
+          reloadData(res.data);
+        }
+      })
+      .catch(err => console.log(err))
+    }
   }
 
-  const reloadData = (data) => {
+  const reloadData = (data, add) => {
+    const index = data.findIndex((record)  =>{
+      for (const key in pk) {
+        if (record[key] != values[key]) return false;
+      }
+      return true;
+    })
+    if (index !== -1) {
+      data[index].className="new-record";
+      if (add)  {
+        let targetObject = data.splice(index, 1)[0]; // Remove the object from the array
+        data.unshift(targetObject); // Add the object to the beginning of the array
+      }
+    }
     setRecords(data);
     setShow(false);
     setValidated(false);
@@ -184,13 +199,13 @@ const Table = ({  table_size, table,
       { !rental && <DataTitle title={table} addModal={() => setShow(true)}/>}
       <div className="row">
         <div className={`col-8 table-scrollable-${table_size}`}>
-          <table className=" table table-hover">
+          <table className=" table table-responsive table-bordered border-dark table-hover text-center text-capitalize">
             <thead className="sticky-top bg-white border-bottom">
-              <tr>
+              <tr className="table-drak table-active text-uppercase text-white">
                 {attributes.map((attribute, index) => (
                   <th key={index}>
                     <DropdownFilter
-                      attribute={attribute}
+                      attribute={header ? header[index]: attribute}
                       values={distinct[attribute]}
                       selectedValues={filters[attribute]}
                       onSelectAll={() => selectAll(attribute)}
@@ -206,7 +221,7 @@ const Table = ({  table_size, table,
             <tbody>
               { 
                 records.map((record, rid) => {
-                  return <tr key={rid}>
+                  return <tr key={rid} className={record.className ? record.className : ""}>
                       {attributes.map((attr, aid) => {
                           return <td key={aid}>{record[attr]}</td>
                       })}
@@ -255,7 +270,7 @@ const Table = ({  table_size, table,
       <ModalForm
         edit={edit}
         table={table}
-        attributes={attributes}
+        attributes={modal_attributes ? modal_attributes : attributes}
         labels={labels ? labels : attributes}
         constraints={constraints}
         feedback={feedback}

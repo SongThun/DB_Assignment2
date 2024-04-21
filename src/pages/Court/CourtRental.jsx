@@ -49,7 +49,7 @@ const CourtRental = ({edit}) => {
   const [validated, setValidated] = useState(false);
 
   const labels = ['Court ID', 'Date', 'Start time', 'End time', 'Customer phone', 'Booking method', 'Receptionist ID',
-                  "Customer name"];
+                  'Customer name'];
 
   const constraints = {
     court_id: {
@@ -125,17 +125,13 @@ const CourtRental = ({edit}) => {
     .then(res => {
       if (res.data.err) {
         const msg = res.data.err.sqlMessage;
-        console.log(msg);
+        console.log(msg)
         if (msg.includes('Duplicate entry'))
           alert('Duplicate entry for primary key');
         else if (msg.includes('cus_reference')) {
           alert("Customer haven't been here before. Consider adding customer name?");
           document.getElementById("cus-name").classList.remove('visually-hidden');
-          axios.post('http://localhost:8080/customer/customer', {
-            phone: values.cus_phone,
-            name: values.cus_name
-          })
-          .catch(err => console.log(err));
+          addCustomer(values);
         }
         else if (msg.includes('rct_reference')) {
           alert("Receptionist ID not available");
@@ -158,11 +154,7 @@ const CourtRental = ({edit}) => {
         else if (msg.includes('cus_reference')) {
           alert("Customer haven't been here before. Consider adding customer name?");
           document.getElementById("cus-name").classList.remove('visually-hidden');
-          axios.post('http://localhost:8080/customer/customer', {
-            phone: values.cus_phone,
-            name: values.cus_name
-          })
-          .catch(err => console.log(err));
+          addCustomer(values);
         }
         else if (msg.includes('rct_reference')) {
           alert("Receptionist ID not available");
@@ -175,14 +167,21 @@ const CourtRental = ({edit}) => {
     })
     .catch(err => console.log(err));
   }
+  const addCustomer = (values) => {
+    axios.post('http://localhost:8080/customer/customer', {
+      phone: values.cus_phone,
+      name: values.cus_name
+    })
+    .catch(err => console.log(err));
+  }
   return (
   <div className="container-fluid min-vh-100">
     <div className="row">
-      <div className="col-2 bg-dark vh-100">
+     
         <Sidebar active_item="Court"/>
-      </div>
+     
 
-      <div className="col container-fluid">
+      <div className="col background1 container-fluid">
         <div className="sticky-top border-bottom mb-4 container-fluid">
           <Navbar goBack={true} href="/court-manage/" />
         </div>

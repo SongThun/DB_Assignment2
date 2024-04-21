@@ -17,6 +17,7 @@ const CourtsManage = () => {
 
   const SubmitAdd = (values, reloadData) => {};
   const SubmitEdit = (pk, values, reloadData) => {};
+  const header = ['CID', 'Date time', 'Start time', 'End time', 'Phone Number','Method','Receptionist ID']
 
   const editCondition = (record) => {
     // Concatenate date and start time strings
@@ -32,16 +33,16 @@ const CourtsManage = () => {
     sessionStorage.setItem('beforeEdit', JSON.stringify(record));
     window.location.href="/court-manage/edit";
   }
+
   return (
     <div className="container-fluid min-vh-100">
         <div className="row">
-					<div className="col-2 bg-dark vh-100 sticky-start">
-						<Sidebar active_item="Court Rental"/>
-					</div>
-
-					<div className="col container-fluid">
+				
+          <Sidebar active_item="Court"/>
+    
+					<div className="col background1 container-fluid">
 						<div className="sticky-top border-bottom mb-4 container-fluid">
-              <Navbar href=""/>
+              <Navbar href="/" goBack="true"/>
             </div>
             
             <div id="cards" className="container-fluid row gap-3">
@@ -60,6 +61,7 @@ const CourtsManage = () => {
                 handleEdit={handleEdit}
                 submitEdit={SubmitEdit}
                 submitAdd={SubmitAdd}
+                header={header}
                 crud="true"
                 rental="true"
                 editCondition={editCondition}

@@ -13,3 +13,9 @@
     box-shadow: 0 0 20px rgba(0,0,0,.2);
     border-radius:10px;
 }
+
+.background1{
+    width: 100%;
+    min-height: 100vh;
+    background: none;
+}
