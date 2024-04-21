@@ -68,6 +68,8 @@ const Program = () => {
     .catch(err => console.log(err));
   };
   const header=['Type','SDate','EDate','Schedule','Status','Fee','MoA','Coach ID']
+  const labels=['Type','SDate','EDate','Schedule','Status','Fee','MoA','Coach ID']
+  const sortlabels=['Type','SDate','EDate','Schedule','Status','Fee','MoA','Coach ID']
 
   return (
     <div className="container-fluid min-vh-100">
@@ -84,6 +86,8 @@ const Program = () => {
               <Table 
                 table_size="lg"
                 table="Training Program"
+                sortlabels={sortlabels}
+                labels={labels}
                 constraints={constraints}
                 feedback={feedback}
                 main_http={main_http}

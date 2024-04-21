@@ -58,6 +58,8 @@ const Product = () => {
     .catch(err => console.log(err));
   };
   const header=['Name', 'Price','Type','In stock']
+  const labels=['Name', 'Price','Type','In stock']
+  const sortlabels=['Name', 'Price','Type','In stock']
 
   return (
     <div className="container-fluid min-vh-100">
@@ -75,6 +77,8 @@ const Product = () => {
               <Table 
                 table_size="lg"
                 table="Product"
+                labels={labels}
+                sortlabels={sortlabels}
                 constraints={constraints}
                 feedback={feedback}
                 main_http={main_http}

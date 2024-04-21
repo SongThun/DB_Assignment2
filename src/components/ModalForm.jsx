@@ -8,7 +8,7 @@ const ModalForm = ({edit, table, labels,
                 validated, setValidated, 
                 values, setValues, pk,
                 submitEdit, submitAdd, reloadData}) => {
-
+  //const labelss =[]
   const cutIndex = Math.ceil(attributes.length/2);
   return (
     <Modal show={show} backdrop="static">

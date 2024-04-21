@@ -12,10 +12,6 @@ const Customer = () => {
   const main_http = 'http://localhost:8080/customer/membership_combine/';
   const sub_http='http://localhost:8080/customer/membership/';
   const constraints = {
-    name:{
-      type:"text",
-      required:true,
-    },
     phone:{
       type:"text",
       required:true,
@@ -45,6 +41,8 @@ const Customer = () => {
     ssn: "SSN must be a valid 12-digit social security number",
     email: "Please provide a valid email"
   }
+  const labels=['Phone','Total hours package','Price/package','Email','Registered date']
+  const sortlabels=['Name','Phone','Total hours package','Price/package','Email','Registered date']
 
   const SubmitAdd = (values, reloadData) => {
     axios.post(sub_http, values)
@@ -71,7 +69,7 @@ const Customer = () => {
     for (const key in pk) {
       params += `${pk[key]}/`;
     }
-    axios.put(main_http + params, values)
+    axios.put(sub_http + params, values)
     .then(res => {
       console.log(res);
       if (res.data.err) {
@@ -91,8 +89,7 @@ const Customer = () => {
         <div className="row">
 					
 						<Sidebar active_item="Customer"/>
-					
-
+			
 					<div className="col background1 container-fluid">
 						<div className="sticky-top border-bottom mb-4 container-fluid">
               <Navbar href="/" goBack="true"/>
@@ -106,6 +103,8 @@ const Customer = () => {
               <Table 
                 table_size="sm"
                 table="Membership"
+                sortlabels={sortlabels}
+                labels={labels}
                 constraints={constraints}
                 feedback={feedback}
                 main_http={main_http}

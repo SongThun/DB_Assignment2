@@ -18,6 +18,7 @@ const CourtsManage = () => {
   const SubmitAdd = (values, reloadData) => {};
   const SubmitEdit = (pk, values, reloadData) => {};
   const header = ['CID', 'Date time', 'Start time', 'End time', 'Phone Number','Method','Receptionist ID']
+  const sortlabels = ['CID', 'Date time', 'Start time', 'End time', 'Phone Number','Method','Receptionist ID']
 
   const editCondition = (record) => {
     // Concatenate date and start time strings
@@ -38,7 +39,7 @@ const CourtsManage = () => {
     <div className="container-fluid min-vh-100">
         <div className="row">
 				
-          <Sidebar active_item="Court"/>
+          <Sidebar className="specialbg" active_item="Court"/>
     
 					<div className="col background1 container-fluid">
 						<div className="sticky-top border-bottom mb-4 container-fluid">
@@ -55,6 +56,7 @@ const CourtsManage = () => {
               <Table 
                 table_size="sm"
                 table="Court Rental"
+                sortlabels={sortlabels}
                 constraints={constraints}
                 feedback={feedback}
                 main_http={main_http}

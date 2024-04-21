@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
 import Form from 'react-bootstrap/Form'
 
-const SortForm = ({attributes, selectedValues, handleSort, onToggle, onToggleSwitch}) => {
-  return (
+const SortForm = ({sortlables,attributes, selectedValues, handleSort, onToggle, onToggleSwitch}) => {
+  return (  // change
     <Form className="list-group ">
       <h4>Sort by</h4>
       {
@@ -12,7 +12,7 @@ const SortForm = ({attributes, selectedValues, handleSort, onToggle, onToggleSwi
               <Form.Check 
                 className="col" 
                 type="checkbox" 
-                label={attr} 
+                label={sortlables[id]? sortlables[id] : attr} // change
                 checked={Object.keys(selectedValues).includes(attr)}
                 onChange={() => onToggle(attr, selectedValues[attr], false)}
                 inline/>

@@ -1,7 +1,7 @@
 .background {
     width: 100%;
     min-height: 100vh;
-    background: url('../assets/bg_bw.png') no-repeat;
+    background: url('../assets/bg-01.png') no-repeat;
     background-size: cover;
     background-position: center;
 }
@@ -18,4 +18,8 @@
     width: 100%;
     min-height: 100vh;
     background: none;
+}
+
+.specialbg{
+    background: black;
 }

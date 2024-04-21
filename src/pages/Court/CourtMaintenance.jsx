@@ -22,13 +22,16 @@ const CourtMaintenance = () => {
     // running_cost: {
     //   pattern: "[0-9]*\.?[0-9]*"
     // }
+    court_id:{
+      required: true
+    }
   }
 
   const feedback = {
     // court_price: "Must be a decimal value (.00)", 
     // running_cost: "Must be a decimal value (.00)"
   }
-
+  const labels =['Manager ID', 'Court ID', 'Maintenance','Date','Cost']
   const SubmitAdd = (values, reloadData) => {
     axios.post(main_http, values)
     .then(res => {
@@ -37,7 +40,7 @@ const CourtMaintenance = () => {
         if (msg.includes('Duplicate entry'))
           alert('Duplicate entry for court_id (primary key)');
       }
-      else reloadData(res.data)
+      else reloadData(res.data,true)
     })
     .catch(err => console.log(err));
   }
@@ -54,11 +57,12 @@ const CourtMaintenance = () => {
         if (msg.includes('Duplicate entry'))
           alert('Duplicate entry for court_id (primary key)');
       }
-      else reloadData(res.data)
+      else reloadData(res.data,false)
     })
     .catch(err => console.log(err));
   }
   const header=['Manager ID','CID','Mantenance','Maintaining Date','Cost']
+  const sortlabels=['Manager ID','CID','Mantenance','Maintaining Date','Cost']
 
   return (
     <div className="container-fluid min-vh-100">
@@ -76,6 +80,8 @@ const CourtMaintenance = () => {
               <Table 
                 table_size="lg"
                 table="Court Maintenance"
+                sortlabels={sortlabels}
+                labels={labels}
                 constraints={constraints}
                 feedback={feedback}
                 main_http={main_http}

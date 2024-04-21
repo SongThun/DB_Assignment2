@@ -6,7 +6,7 @@ import ModalForm from './ModalForm.jsx';
 import loginAlert from './loginAlert.js';
 import DataTitle from './DataTitle.jsx';
 
-const Table = ({  table_size, table, modal_attributes,
+const Table = ({  table_size, table, modal_attributes, sortlabels,
                   labels, constraints, feedback, 
                   main_http, header,
                   handleEdit, handleDelete,
@@ -194,6 +194,7 @@ const Table = ({  table_size, table, modal_attributes,
     .catch(err => console.log(err));
   }
 
+
   return (
     <div>
       { !rental && <DataTitle title={table} addModal={() => setShow(true)}/>}
@@ -261,6 +262,7 @@ const Table = ({  table_size, table, modal_attributes,
         </div>
         <div className="col ms-4">
           <SortForm 
+            sortlables={sortlabels}
             attributes={records.length ? Object.keys(records[0]) : []}
             selectedValues={sortby}
             onToggle={onToggleSort}
@@ -270,6 +272,7 @@ const Table = ({  table_size, table, modal_attributes,
       <ModalForm
         edit={edit}
         table={table}
+        sortlabels={sortlabels}
         attributes={modal_attributes ? modal_attributes : attributes}
         labels={labels ? labels : attributes}
         constraints={constraints}

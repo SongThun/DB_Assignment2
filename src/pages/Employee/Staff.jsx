@@ -94,6 +94,8 @@ const Staff = () => {
     .catch(err => console.log(err));
   };
   const header=['SID','SSSN','Full Name','Email','Address','DOB','Role']
+  const labels=['SID','SSSN','Full Name','Email','Address','DOB','Role']
+  const sortlabels=['SID','SSSN','Full Name','Email','Address','DOB','Role']
 
   return (
     <div className="container-fluid min-vh-100">
@@ -111,6 +113,8 @@ const Staff = () => {
               <Table 
                 table_size="sm"
                 table="Staff"
+                sortlabels={sortlabels}
+                labels={labels}
                 constraints={constraints}
                 feedback={feedback}
                 main_http={main_http}

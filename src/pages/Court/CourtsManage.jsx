@@ -17,10 +17,18 @@ const CourtsManage = () => {
       required: true,
     },
     court_price: {
-      pattern: "[0-9]*\.?[0-9]*"
+      pattern: "[0-9]*\.?[0-9]*",
+      required:true
     },
     running_cost: {
-      pattern: "[0-9]*\.?[0-9]*"
+      pattern: "[0-9]*\.?[0-9]*",
+      required:true
+    },
+    court_type: {
+      type: "text",
+      enum: ['Synthetic Court Flooring','Rubber Flooring'],
+      required: true,
+      
     }
   }
 
@@ -59,6 +67,8 @@ const CourtsManage = () => {
     .catch(err => console.log(err));
   }
   const header=['Court ID','Type','RentalPrice/Hour','Running Cost/Month']
+  const labels=['Court ID','Type','Rental Price/Hour','Running Cost/Month']
+  const sortlabels=['Court ID','Type','Rental Price/Hour','Running Cost/Month']
   ;
   
 
@@ -78,6 +88,8 @@ const CourtsManage = () => {
               <Table 
                 table_size="lg"
                 table="Court"
+                sortlabels={sortlabels}
+                labels={labels}
                 constraints={constraints}
                 feedback={feedback}
                 main_http={main_http}

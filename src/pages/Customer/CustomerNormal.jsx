@@ -67,6 +67,8 @@ const CustomerNormal = () => {
     })
     .catch(err => console.log(err));
   };
+  const labels=['Name','Phone']
+  const sortlabels=['Name','Phone']
   const header=['Name','Phone']
 
   return (
@@ -85,6 +87,8 @@ const CustomerNormal = () => {
               <Table 
                 table_size="sm"
                 table="Customer Normal"
+                sortlabels={sortlabels}
+                labels={labels}
                 constraints={constraints}
                 feedback={feedback}
                 main_http={main_http}
