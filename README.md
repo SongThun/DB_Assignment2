@@ -24,7 +24,9 @@
 Other page (except Court.jsx, CourtRental.jsx): add true, false to reloadData of SubmitAdd, SubmitEdit  
 
 <br>
+### Login username: sManager | password: 123456
 
+<br>
 ## Setup
 ### Client side
 In project folder, create vite-project
