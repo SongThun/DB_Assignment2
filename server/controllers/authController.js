@@ -1,26 +1,23 @@
 import session from 'express-session';
-import db from '../database.js'
+import {createDatabase} from '../database.js'
+import mysql from 'mysql2'
 
 const authController = {
-    login: (req, res) => {
-        let sql = `SELECT * FROM sManager WHERE username='${req.body.username}'`;
-        db.query(sql, (err, result) => {
-            if (err) {
-                console.log(err);
-                return res.json(err);
-            }
-            if (result.length > 0) {
-                if (result[0].password === req.body.password) {
-                    return res.json({valid: true, username: req.body.username})
-                }
-                else {
-                    return res.json({valid: false, msg: 'Incorrect password, please try again'});
-                }
-            }
+    login: async (req, res) => {
+        if (req.body.username == 'sManager') {
+            const result = await createDatabase(req.body.username, req.body.password);
+            console.log(result);
+            if (result == 'success') 
+                
+                return res.json({valid: true, username: req.body.username})
             else {
-                return res.json({valid:false, msg: "Username doesn't exist"});
+                console.log(result);
+                return res.json({valid: false, msg: 'Incorrect password, please try again'})
             }
-        })
+        }
+        else {
+            return res.json({valid: false, msg: "Username does not exist"});
+        }
     },
     logout: (req, res) => {
         req.session.destroy();
