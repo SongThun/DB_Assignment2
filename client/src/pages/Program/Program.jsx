@@ -46,7 +46,7 @@ const Program = () => {
         if (msg.includes('Duplicate entry'))
           alert('Duplicate entry for court_id (primary key)');
       }
-      else reloadData(res.data)
+      else reloadData(res.data, true)
     })
     .catch(err => console.log(err));
   }
@@ -63,7 +63,7 @@ const Program = () => {
         if (msg.includes('Duplicate entry'))
           alert('Duplicate entry for primary key');
       }
-      else reloadData(res.data)
+      else reloadData(res.data, false)
     })
     .catch(err => console.log(err));
   }
