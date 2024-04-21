@@ -1,13 +1,16 @@
-import db from '../database.js'
+import {connect} from '../database.js'
 import Model from './Model.js';
+
 
 const Rental = {
   find: async (values) => {
+    const db = connect();
     let sql = 'CALL court_availability(?,?,?)';
     const result = await db.query(sql, values);
     return result[0][0];
   },
   findWithEdit: async (prevValues, newValues) => {
+    const db = connect();
     const connection = await db.getConnection();
     try {
       const deleteSQL = `DELETE from court_rental
