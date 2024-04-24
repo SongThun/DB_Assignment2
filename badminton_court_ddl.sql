@@ -2,16 +2,6 @@ drop database if exists badminton_court_DB;
 create database badminton_court_DB;
 use badminton_court_DB;
 
-create table sManager (
-	username VARCHAR(40) primary key,
-    password VARCHAR(50) 
-);
-
-drop user if exists 'sManager'@'localhost';
-create user 'sManager'@'localhost' identified with caching_sha2_password by '123456';
-grant all privileges on badminton_court_db.* to 'sManager'@'localhost';
-flush privileges;
-
 create table staff(
 	staff_id char(8) primary key,
     ssn char(12) unique not null,
@@ -82,7 +72,7 @@ create table cleaner_works_on(
     primary key(shift_date, start_time, end_time, cleaner_id),
     foreign key(shift_date, start_time, end_time) references shift(shift_date,start_time, end_time) on delete cascade on update cascade,
     foreign key(cleaner_id) references cleaning_staff(cleaner_id) on delete cascade on update cascade,
-    check (area >=1 and area <=5)
+    check (area >=5 and area <=20)
 );
 
 delimiter //
@@ -92,13 +82,13 @@ reads sql data
 begin 
 	declare job varchar(255);
     declare hours_worked int;
-    set job= (select job_type from staff s where s.staff_id = staff_id);
+    set job= (select job_title from staff s where s.staff_id = staff_id);
     if job="Coach" or job="Facilites manager" then 
 		set hours_worked= null;
     elseif job="Cleaning staff" then 
 		set hours_worked= (select sum(hour(end_time)-hour(start_time)) from cleaner_works_on c where (month(shift_date)=month(curdate()) and c.cleaner_id=staff_id));
     elseif job="Receptionist" then 
-		set hours_worked= (select sum(hour(end_time)-hour(start_time)) from shift s where s.staff_id=receptionist_id);
+		set hours_worked= (select sum(hour(end_time)-hour(start_time)) from shift sh where (month(shift_date)=month(curdate()) and sh.receptionist_id=staff_id));
 	else set hours_worked= null;
     end if;
     return hours_worked;
@@ -110,13 +100,15 @@ reads sql data
 begin
 	declare job varchar(255);
     declare salary decimal(15,2);
-    set job=(select job_type from staff s where s.staff_id=staff_id);
+    set job=(select job_title from staff s where s.staff_id=staff_id);
     if job="Facilities manager" then 
-		set salary= (select salary_month from facilities_manager f where f.staff_id=staff_id);
+		set salary= (select salary_month from facilities_manager f where f.manager_id=staff_id);
 	elseif job="Coach" then
-		set salary=(select salary_month from coach c where c.staff_id=staff_id);
-	elseif job="Cleaning staff" or job="Receptionist" then
-		set salary=total_hours_worked(staff_id);
+		set salary=(select salary_month from coach c where c.coach_id=staff_id);
+	elseif job="Cleaning staff" then
+		set salary=total_hours_worked(staff_id) * (select wage from cleaning_staff cl where cl.cleaner_id=staff_id);
+    elseif job="Receptionist" then
+		set salary=total_hours_worked(staff_id) * (select wage from receptionist r where r.receptionist_id=staff_id);
 	else 
 		set salary=null;
 	end if;
@@ -406,7 +398,7 @@ end//
 create procedure court_availability(court_date date, start_time time, end_time time)
 reads sql data
 begin
-	select court_id, court_type, court_price 
+	select court_id, court_type, court_price
     from court
     where court_id not in(	select court_id
 							from court_rental c 

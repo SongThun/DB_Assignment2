@@ -1,5 +1,3 @@
-INSERT INTO sManager VALUES ('thunthun', '123456');
-
 INSERT INTO staff (staff_id, ssn, name, email, address, dob, job_title) 
 VALUES 
 ('RCT00001', '123456789012', 'Ninh Đức Tuấn', 'tuan.minh@gmail.com', '201A Phan Van Khoe St., Ward 5, Dist. 6, HCMC', '1990-05-15', "Receptionist"),
