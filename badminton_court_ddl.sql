@@ -390,7 +390,7 @@ begin
 		signal sqlstate '45000' set MESSAGE_TEXT = "in_stock < quantity";
 	else 
 		update product p
-        set in_stock=in_stock +new.quantity
+        set in_stock= in_stock - new.quantity
         where new.product_name=p.product_name;
 	end if;
     
