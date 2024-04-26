@@ -266,16 +266,19 @@ create table membership(
 
 delimiter //
 
-
-
-
 create function expired_date(phone varchar(15))
 returns date
 reads sql data
 begin 
 	declare r_date date;
-    set r_date = (select registered_date from memebership m where m.phone=phone);
-    return adddate(r_date, interval 1 month);
+    declare free_hours int;
+    set r_date = (select registered_date from membership m where m.phone=phone);
+    set free_hours = (select total_hours_package from membership m where m.phone=phone);
+    if free_hours = 40 then
+		return adddate(r_date, interval 3 month);
+    else
+		return adddate(r_date, interval 12 month);
+	end if;
 end//
 
 create function remaining_free_hours(phone varchar(15))
