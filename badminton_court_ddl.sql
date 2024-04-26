@@ -286,14 +286,14 @@ returns int
 reads sql data
 begin
 	declare hours_used int;
-    declare r_date date;
 	declare total_hours int;
-	set r_date = (select registered_date from membership m where m.phone=phone); 
-    if (adddate(r_date, interval 1 month)<=curdate()) then return null;
+    DECLARE remaining_hours INT;
+    if (expired_date(phone)<=curdate()) then return null;
     end if;
     set total_hours= (select total_hours_package from membership m where m.phone=phone);
-    set hours_used = (select sum(hour(end_time)-hour(star_time)) from court_rental where court_date >= r_date);
-    return total_hours-hours_used;
+    set hours_used = (select sum(hour(end_time)-hour(start_time)) from court_rental cr where cr.court_date <= expired_date(phone) and cr.cus_phone = phone);
+    set remaining_hours =  total_hours-hours_used;
+    return remaining_hours;
 end//
 
 create function total_rental_price(court_id smallint, start_time time, end_time time, phone varchar(15))
@@ -308,11 +308,10 @@ begin
     else
 		set price = (select court_price from court c where c.court_id=court_id);
 	end if;
-    return price* (hour(start_time) - hour(end_time));
+    return price* (hour(end_time) - hour(start_time));
 end //
 
 delimiter ;
-
 
 create table sessions(
 	session_date date default (current_date),
