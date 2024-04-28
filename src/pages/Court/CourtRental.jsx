@@ -74,8 +74,8 @@ const CourtRental = ({edit}) => {
     },
     booking_method: {
       type: "select",
-      select_options: ['At the counter', 'Online'],
-      value: 'At the counter'
+      select_options: ['At the counter', 'Online']
+      // value: 'At the counter'
     },
     receptionist_id: {
       minLength: 8,
@@ -120,6 +120,11 @@ const CourtRental = ({edit}) => {
     })
   }
   const SubmitAdd = (values) => {
+    const cus_element = document.getElementById('cus-name');
+    console.log(cus_element);
+    if (!cus_element.classList.contains('visually-hidden')) {
+      addCustomer(values.cus_phone, cus_element.value);
+    }
     const {cus_name, ...params} = values;
     axios.post(main_http, params)
     .then(res => {
@@ -131,7 +136,7 @@ const CourtRental = ({edit}) => {
         else if (msg.includes('cus_reference')) {
           alert("Customer haven't been here before. Consider adding customer name?");
           document.getElementById("cus-name").classList.remove('visually-hidden');
-          addCustomer(values);
+          // addCustomer(values);
         }
         else if (msg.includes('rct_reference')) {
           alert("Receptionist ID not available");
@@ -142,6 +147,10 @@ const CourtRental = ({edit}) => {
     .catch(err => console.log(err));
   }
   const SubmitEdit = (values) => {
+    const cus_element = document.getElementById('cus-name');
+    if (!cus_element.classList.contains('visually-hidden')) {
+      addCustomer(values.cus_phone, cus_name);
+    }
     const prev = JSON.parse(sessionStorage.getItem('beforeEdit'));
     const params = `${prev.court_id}/${prev.court_date}/${prev.start_time}`;
     axios.put(main_http + params, values)
@@ -154,7 +163,7 @@ const CourtRental = ({edit}) => {
         else if (msg.includes('cus_reference')) {
           alert("Customer haven't been here before. Consider adding customer name?");
           document.getElementById("cus-name").classList.remove('visually-hidden');
-          addCustomer(values);
+          // addCustomer(values);
         }
         else if (msg.includes('rct_reference')) {
           alert("Receptionist ID not available");
@@ -167,11 +176,12 @@ const CourtRental = ({edit}) => {
     })
     .catch(err => console.log(err));
   }
-  const addCustomer = (values) => {
+  const addCustomer = (cus_phone, cus_name) => {
     axios.post('http://localhost:8080/customer/customer', {
-      phone: values.cus_phone,
-      name: values.cus_name
+      phone: cus_phone,
+      name: cus_name
     })
+    .then(res => console.log(res))
     .catch(err => console.log(err));
   }
   return (

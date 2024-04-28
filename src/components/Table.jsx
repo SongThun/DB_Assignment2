@@ -11,7 +11,7 @@ const Table = ({  table_size, table, modal_attributes, sortlabels,
                   main_http, header,
                   handleEdit, handleDelete,
                   submitEdit, submitAdd,
-                  crud, rental, editCondition
+                  crud, rental, editCondition,
                   }) => {
   
   axios.defaults.withCredentials=true;
@@ -58,7 +58,17 @@ const Table = ({  table_size, table, modal_attributes, sortlabels,
         setRecords(res.data.result);
         setDistinct(res.data.distinct);
         setFilters(JSON.parse(JSON.stringify(res.data.distinct)));
-        setAttributes(res.data.attributes);
+        setAttributes(() => {
+          let newAttributes = res.data.attributes;
+          // Object.keys(constraints).forEach((attr) => {
+          //   console.log(newAttributes.indexOf(attr))
+          //   if (newAttributes.indexOf(attr) == -1) {
+          //     newAttributes.push(attr);
+          //   }
+          // });
+          return newAttributes;
+        });
+        
         setPk(() => {
           let initialPk = {};
           res.data.primaryKeys.forEach((key) => {
@@ -69,7 +79,13 @@ const Table = ({  table_size, table, modal_attributes, sortlabels,
         setValues(() => {
           let initialAttr = {};
           attributes.forEach((key) => {
-            initialAttr[key] = '';
+            let val = '';
+            if (constraints[key]) {
+              if (constraints[key].type && constraints[key].type == 'select') {
+                val = constraints[key].select_options[0];
+              }
+            }
+            initialAttr[key] = val;   
           });
           return initialAttr;
         });
@@ -104,7 +120,7 @@ const Table = ({  table_size, table, modal_attributes, sortlabels,
           console.log(res.data.err);
         }
         else {
-          reloadData(res.data);
+          reloadData(res.data, false);
         }
       })
       .catch(err => console.log(err))
@@ -112,6 +128,7 @@ const Table = ({  table_size, table, modal_attributes, sortlabels,
   }
 
   const reloadData = (data, add) => {
+    console.log(data);
     const index = data.findIndex((record)  =>{
       for (const key in pk) {
         if (record[key] != values[key]) return false;
@@ -131,7 +148,13 @@ const Table = ({  table_size, table, modal_attributes, sortlabels,
     setValues(() => {
       let initialAttr = {};
       attributes.forEach((key) => {
-        initialAttr[key] = '';
+        let val = '';
+        if (constraints[key]) {
+          if (constraints[key].type && constraints[key].type == 'select') {
+            val = constraints[key].select_options[0];
+          }
+        }
+        initialAttr[key] = val;   
       });
       return initialAttr;
     })
@@ -203,8 +226,9 @@ const Table = ({  table_size, table, modal_attributes, sortlabels,
           <table className=" table table-responsive table-bordered border-dark table-hover text-center text-capitalize">
             <thead className="sticky-top bg-white border-bottom">
               <tr className="table-drak table-active text-uppercase text-white">
-                {attributes.map((attribute, index) => (
-                  <th key={index}>
+                {attributes.map((attribute, index) => {
+                  if (!values.attribute)
+                  return <th key={index}>
                     <DropdownFilter
                       attribute={header ? header[index]: attribute}
                       values={distinct[attribute]}
@@ -215,7 +239,7 @@ const Table = ({  table_size, table, modal_attributes, sortlabels,
                       handleFilter={handleFilterSort}
                     />
                   </th>
-                ))}
+                })}
                 <th>Action</th>
               </tr>
             </thead>

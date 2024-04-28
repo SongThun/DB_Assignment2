@@ -80,13 +80,13 @@ const CustomerNormal = () => {
 
 					<div className="col background1 container-fluid">
 						<div className="sticky-top border-bottom mb-4 container-fluid">
-              <Navbar href="/customer" goBack="true"/>
+              <Navbar href="/" goBack="true"/>
             </div>
             
 						<div>
               <Table 
                 table_size="sm"
-                table="Customer Normal"
+                table="Customer Information"
                 sortlabels={sortlabels}
                 labels={labels}
                 constraints={constraints}

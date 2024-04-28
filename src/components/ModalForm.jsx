@@ -18,7 +18,13 @@ const ModalForm = ({edit, table, labels,
        setValues(() => {
         let initialAttr = {};
         attributes.forEach((key) => {
-          initialAttr[key] = '';
+          let val = '';
+          if (constraints[key]) {
+            if (constraints[key].type && constraints[key].type == 'select') {
+              val = constraints[key].select_options[0];
+            }
+          }
+          initialAttr[key] = val;          
         });
         return initialAttr;
        })

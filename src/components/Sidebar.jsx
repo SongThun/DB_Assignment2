@@ -44,7 +44,7 @@ const Sidebar = ({active_item}) => {
           </a>
         </li>
         <li className="sidebar-item">
-          <a href="/customer" className="sidebar-link">
+          <a href="/customer/normal" className="sidebar-link">
             <i className="lni lni-agenda"></i>
             <span>Customer</span>
           </a>

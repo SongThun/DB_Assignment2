@@ -7,32 +7,27 @@ import Table from '../../components/Table.jsx';
 import axios from 'axios';
 import moment from 'moment';
 
-const Customer = () => {
+const Shift = () => {
   axios.defaults.withCredentials=true;
-  const main_http = 'http://localhost:8080/customer/membership_combine/';
-  const sub_http='http://localhost:8080/customer/membership/';
+  
+  const main_http = 'http://localhost:8080/employee/shift/';
   const constraints = {
-    phone:{
-      type:"text",
-      required:true,
-      minLength: 10,
-      maxLength: 10
+    shift_date: {
+      type: "date",
+      required: true
     },
-    total_hours_package:{
-      type:"text",
-      required:true,
+    start_time:{
+      type: "time",
+      required: true,
+      end: "22:00"
     },
-    price:{
-      type:"text",
-      required:true,
+    end_time:{
+      type: "time",
+      required: true
     },
-    email:{
-      type:"email",
-      required:true,
-    },
-    registered_date:{
-      type:"date",
-      required:true
+    receptionist_id:{
+      type: "text",
+      required: true
     }
   }
 
@@ -41,22 +36,20 @@ const Customer = () => {
     ssn: "SSN must be a valid 12-digit social security number",
     email: "Please provide a valid email"
   }
-  const labels=['Phone','Total hours package','Price/package','Email','Registered date']
-  const sortlabels=['Name','Phone','Total hours package','Price/package','Email','Registered date']
 
   const SubmitAdd = (values, reloadData) => {
-    axios.post(sub_http, values)
+    axios.post(main_http, values)
     .then(res => {
       if (res.data.err) {
         const msg = res.data.err.sqlMessage;
         console.log(msg)
-        if (msg.includes('staff.PRIMARY'))
-          alert('Duplicate entry for Staff ID!');
-        if (msg.includes('staff_jobtitle')) {
-          alert('Invalid job title!');
+        if (msg.includes('shift.PRIMARY'))
+          alert('Duplicate entry for Primary key!');
+        if (msg.includes('receptionist_id_shift')) {
+          alert('Invalid Receptionist ID!');
         }
-        if (msg.includes('staff.ssn')){
-          alert('Duplicate entry for Staff SSN!');
+        if (msg.includes('time_shift')){
+          alert('Time in shift not valid, please check again!');
         }
       }
       else reloadData(res.data,true)
@@ -69,7 +62,7 @@ const Customer = () => {
     for (const key in pk) {
       params += `${pk[key]}/`;
     }
-    axios.put(sub_http + params, values)
+    axios.put(main_http + params, values)
     .then(res => {
       console.log(res);
       if (res.data.err) {
@@ -78,31 +71,30 @@ const Customer = () => {
         if (msg.includes('Duplicate entry'))
           alert('Duplicate entry for staff_id (primary key)');
       }
-      else reloadData(res.data)
+      else reloadData(res.data,false)
     })
     .catch(err => console.log(err));
   };
-  const header=['Name','Phone','Total hours package','Price/package','Email','Registered date']
+  const header=['Date','Start time','End time', 'Receptionist ID']
+  const labels=['Date','Start time','End time', 'Receptionist ID']
+  const sortlabels=['Date','Start time','End time', 'Receptionist ID']
 
   return (
     <div className="container-fluid min-vh-100">
         <div className="row">
+				
+						<Sidebar active_item="Employee"/>
 					
-						<Sidebar active_item="Customer"/>
-			
+
 					<div className="col background1 container-fluid">
 						<div className="sticky-top border-bottom mb-4 container-fluid">
-              <Navbar href="/" goBack="true"/>
-            </div>
-
-            <div id="cards" className="container-fluid row gap-3">
-              <Card href="/customer/normal" card_title="Customer Information"/>
+              <Navbar href="/employee" goBack="true"/>
             </div>
 
 						<div>
               <Table 
                 table_size="sm"
-                table="Membership"
+                table="Shift of Receptionist"
                 sortlabels={sortlabels}
                 labels={labels}
                 constraints={constraints}
@@ -121,4 +113,4 @@ const Customer = () => {
   )
 }
 
-export default Customer
+export default Shift

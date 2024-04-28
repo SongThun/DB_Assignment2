@@ -21,5 +21,15 @@
 }
 
 .specialbg{
-    background: black;
+    background: url('../assets/bg-01.png') no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.container-fluid1{
+    height: 100%;
+}
+.col1{
+    display: inline-block;
+    padding-left: 1%;
 }

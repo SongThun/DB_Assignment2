@@ -1,0 +1,18 @@
+.hello{
+  border-style:solid;
+  border-top:0;
+  border-left:0;
+  border-right:0;
+  border-color: rgba(0, 0, 0, 0.518);
+  box-shadow: rgba(0, 0, 0, 0.518);
+  background: url('../assets/bg-01.png');
+  background-position: center;
+  background-size: cover;
+}
+.hello h1{
+  color:white;
+}
+.hello h2{
+  display:inline-block;
+  color:white;
+}

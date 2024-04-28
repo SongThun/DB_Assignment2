@@ -9,10 +9,13 @@ import Staff from './pages/Employee/Staff.jsx';
 import Program from './pages/Program/Program.jsx';
 import Customer from './pages/Customer/Customer.jsx';
 import CustomerNormal from './pages/Customer/CustomerNormal.jsx';
+import Shift from './pages/Employee/Shift.jsx';
+import ShiftCleaning from './pages/Employee/ShiftCleaning.jsx';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Product from './pages/Product/Product.jsx';
 import CourtMaintenance from './pages/Court/CourtMaintenance.jsx';
+import ReceptionistForm from './pages/FormFolder/ReceptionistForm.jsx';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -29,6 +32,9 @@ function App() {
             <Route path='/court-manage/court' element={<CourtsManage/>}/>
             <Route path='/court-manage/maintenance' element={<CourtMaintenance/>}/>
             <Route path='/employee' element={<Staff/>}/>
+            <Route path='/formfolder/receptionist' element={<ReceptionistForm/>}/>
+            <Route path='/employee/shift' element={<Shift/>}/>
+            <Route path='/employee/shiftcleaning' element={<ShiftCleaning/>}/>
             <Route path='/customer' element={<Customer/>}/>
             <Route path='/customer/normal' element={<CustomerNormal/>}/>
             <Route path='/training-program' element={<Program/>}/>
