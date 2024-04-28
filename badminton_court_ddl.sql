@@ -416,3 +416,42 @@ begin
 									(t.start_time <= start_time and t.end_time >= end_time)));
 end//
 delimiter ;
+
+delimiter \\
+create procedure frequency()
+reads sql data
+begin
+	SELECT court_id, rental_count AS Total_time_rental
+	FROM
+	(
+		SELECT court_id, COUNT(court_id) AS rental_count, DENSE_RANK() OVER (ORDER BY COUNT(court_id) DESC) AS rnk
+		FROM court_rental
+		GROUP BY court_id
+	) t
+	WHERE rnk <= 3;
+end;
+\\
+
+CREATE PROCEDURE GetCurrentShiftDetails()
+BEGIN
+    DECLARE currentShiftDate DATE;
+    DECLARE currentShiftTime TIME;
+
+    -- Get current date and time
+    SET currentShiftDate = CURDATE();
+    SET currentShiftTime = CURTIME();
+
+    -- Return shift details
+    SELECT s.shift_date, s.start_time, s.end_time, s.receptionist_id, c.cleaner_id, c.area
+    FROM shift s
+    LEFT JOIN cleaner_works_on c ON s.shift_date = c.shift_date 
+                                   AND s.start_time = c.start_time 
+                                   AND s.end_time = c.end_time
+    WHERE s.shift_date = currentShiftDate
+      AND currentShiftTime BETWEEN s.start_time AND s.end_time;
+END //
+delimiter ; 
+
+
+
+
