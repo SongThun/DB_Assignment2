@@ -10,7 +10,7 @@ create table staff(
     address varchar(255),
     dob date,
     job_title varchar(255),
-    check (job_title in ("Receptionist","Facilities manager", "Coach", "Cleaning staff"))
+    constraint staff_jobtitle check (job_title in ("Receptionist","Facilities manager", "Coach", "Cleaning staff"))
 );
 
 create table staff_phone(
@@ -56,8 +56,8 @@ create table shift(
     end_time time,
     receptionist_id char(8),
     primary key(shift_date, start_time, end_time),
-    foreign key(receptionist_id) references receptionist(receptionist_id) on delete set null on update cascade,
-    check ((start_time="7:00:00" and end_time="12:00:00") or 
+    constraint receptionist_id_shift foreign key(receptionist_id) references receptionist(receptionist_id) on delete set null on update cascade,
+    constraint time_shift check ((start_time="7:00:00" and end_time="12:00:00") or 
 		(start_time="12:00:00" and end_time="17:00:00") or
         (start_time="17:00:00" and end_time="22:00:00"))
 );
