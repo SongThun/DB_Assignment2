@@ -9,12 +9,13 @@ import Tabledashboard from '../components/TableDashboard.jsx'
 import './Dashboard.css'
 import Card from '../components/Card.jsx'
 import DataTitle from '../components/DataTitle.jsx'
+import CardDashboard from '../components/CardDashboard.jsx'
 
 const Dashboard = () => {
   axios.defaults.withCredentials=true;
   const main_http='http://localhost:8080/dashboard/frequency/';
   const sub_http='http://localhost:8080/dashboard/GetCurrentShiftDetails/';
-  const sub2_http='http://localhost:8080/dashboard/CalculateMembershipPercentage/'
+  const sub2_http='http://localhost:8080/dashboard/CalculateMembershipPercentage/';
   const header=['Court ID','Number of time rented']
   const labels=['Court ID','Number of time rented']
   const sortlabels=['Court ID','Number of time rented']
@@ -72,6 +73,12 @@ const Dashboard = () => {
                 <div id="cards" className="container-fluid row gap-3">
                   <Card href="/salary" card_title="Employee's salary"/>
                   <Card href="/membership" card_title="Membership"/>
+                </div>
+                <div className='d-inline align-items-center justify-content-center'>
+                    <CardDashboard icon="lni lni-home" size={70} name="Number Courts" />
+                    <CardDashboard icon="lni lni-customer" size={70} name="Number Customer"/>
+                    <CardDashboard icon="lni lni-handshake" size={70} name="Number Membership"/>
+                    <CardDashboard icon="lni lni-revenue" size={70} name="Total revenue"/>
                 </div>
                 <div className="row">
                 <div className='col'>
