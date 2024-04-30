@@ -449,9 +449,35 @@ BEGIN
                                    AND s.end_time = c.end_time
     WHERE s.shift_date = currentShiftDate
       AND currentShiftTime BETWEEN s.start_time AND s.end_time;
-END //
+END \\
+
+CREATE PROCEDURE CalculateMembershipPercentage()
+BEGIN
+    DECLARE total_customers INT;
+    DECLARE registered_customers INT;
+    DECLARE membership_percentage DECIMAL(5,2);
+    
+    -- Get total number of customers
+    SELECT COUNT(*) INTO total_customers FROM customer;
+    
+    -- Get number of customers who registered for membership
+    SELECT COUNT(*) INTO registered_customers FROM membership;
+    
+    -- Calculate membership percentage
+    IF total_customers > 0 THEN
+        SET membership_percentage = (registered_customers / total_customers) * 100;
+    ELSE
+        SET membership_percentage = 0;
+    END IF;
+    
+    -- Display the result
+    SELECT CONCAT(ROUND(membership_percentage, 2), '%') AS Membership_Percentage, registered_customers as Registered, total_customers as Total;
+END \\
+
+create procedure All_Membership()
+begin
+	select c.name, m.phone, m.email, m.registered_date, m.total_hours_package, m.price 
+    from customer c join membership m where c.phone=m.phone
+    order by m.registered_date desc;
+end \\
 delimiter ; 
-
-
-
-
