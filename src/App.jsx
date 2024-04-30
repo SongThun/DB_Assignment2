@@ -16,6 +16,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Product from './pages/Product/Product.jsx';
 import CourtMaintenance from './pages/Court/CourtMaintenance.jsx';
 import ReceptionistForm from './pages/FormFolder/ReceptionistForm.jsx';
+import Salary from './pages/Salary.jsx'
+import Membership from './pages/Membership.jsx';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -39,6 +41,8 @@ function App() {
             <Route path='/customer/normal' element={<CustomerNormal/>}/>
             <Route path='/training-program' element={<Program/>}/>
             <Route path="/product-manage" element={<Product/>}/>
+            <Route path='/salary' element={<Salary/>}/>
+            <Route path='/membership' element={<Membership/>}/>
           </Routes>
         </BrowserRouter>
       

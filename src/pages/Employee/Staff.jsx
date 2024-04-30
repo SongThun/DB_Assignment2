@@ -11,6 +11,7 @@ import Table from '../../components/Table.jsx';
 import ModalForm from '../../components/ModalForm.jsx';
 import axios from 'axios';
 import moment from 'moment';
+import Guide from '../../components/Guideline/Guide.jsx';
 
 const Staff = ({edit}) => {
   axios.defaults.withCredentials=true;
@@ -207,6 +208,7 @@ const Staff = ({edit}) => {
             <div id="cards" className="container-fluid row gap-3">
               <Card href="/employee/shift" card_title="Receptionist's Shift"/>
               <Card href="/employee/shiftcleaning" card_title="Cleaner's Shift"/>
+              <Guide/>
             </div>
 
 						<div>

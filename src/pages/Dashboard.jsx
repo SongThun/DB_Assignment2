@@ -7,11 +7,14 @@ import './Login.css'
 import Table from '../components/Table.jsx'
 import Tabledashboard from '../components/TableDashboard.jsx'
 import './Dashboard.css'
+import Card from '../components/Card.jsx'
+import DataTitle from '../components/DataTitle.jsx'
 
 const Dashboard = () => {
   axios.defaults.withCredentials=true;
   const main_http='http://localhost:8080/dashboard/frequency/';
   const sub_http='http://localhost:8080/dashboard/GetCurrentShiftDetails/';
+  const sub2_http='http://localhost:8080/dashboard/CalculateMembershipPercentage/'
   const header=['Court ID','Number of time rented']
   const labels=['Court ID','Number of time rented']
   const sortlabels=['Court ID','Number of time rented']
@@ -65,6 +68,10 @@ const Dashboard = () => {
                 <div className="hello">
                   <h2>Welcome back,</h2>
                   <h1>{sessionStorage.getItem('username')}!</h1>
+                </div>
+                <div id="cards" className="container-fluid row gap-3">
+                  <Card href="/salary" card_title="Employee's salary"/>
+                  <Card href="/membership" card_title="Membership"/>
                 </div>
                 <div className="row">
                 <div className='col'>

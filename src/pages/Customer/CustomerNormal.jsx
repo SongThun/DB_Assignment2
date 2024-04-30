@@ -82,6 +82,10 @@ const CustomerNormal = () => {
 						<div className="sticky-top border-bottom mb-4 container-fluid">
               <Navbar href="/" goBack="true"/>
             </div>
+
+            <div id="cards" className="container-fluid row gap-3">
+              <Card href="/customer" card_title="Register Membership"/>
+            </div>
             
 						<div>
               <Table 

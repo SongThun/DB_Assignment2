@@ -9,8 +9,7 @@ import moment from 'moment';
 
 const Customer = () => {
   axios.defaults.withCredentials=true;
-  const main_http = 'http://localhost:8080/customer/membership_combine/';
-  const sub_http='http://localhost:8080/customer/membership/';
+  const main_http='http://localhost:8080/customer/membership/';
   const constraints = {
     phone:{
       type:"text",
@@ -42,18 +41,18 @@ const Customer = () => {
     email: "Please provide a valid email"
   }
   const labels=['Phone','Total hours package','Price/package','Email','Registered date']
-  const sortlabels=['Name','Phone','Total hours package','Price/package','Email','Registered date']
+  const sortlabels=['Phone','Total hours package','Price/package','Email','Registered date']
 
   const SubmitAdd = (values, reloadData) => {
-    axios.post(sub_http, values)
+    axios.post(main_http, values)
     .then(res => {
       if (res.data.err) {
         const msg = res.data.err.sqlMessage;
         console.log(msg)
         if (msg.includes('staff.PRIMARY'))
           alert('Duplicate entry for Staff ID!');
-        if (msg.includes('staff_jobtitle')) {
-          alert('Invalid job title!');
+        if (msg.includes('`badminton_court_db`.`membership`, CONSTRAINT `membership_ibfk_1` FOREIGN KEY (`phone`) REFERENCES `customer` (`phone`) ON DELETE CASCADE ON UPDATE CASCADE)')) {
+          alert("The customer hasn't register yet!\nPlease register information of customer before!");
         }
         if (msg.includes('staff.ssn')){
           alert('Duplicate entry for Staff SSN!');
@@ -69,7 +68,7 @@ const Customer = () => {
     for (const key in pk) {
       params += `${pk[key]}/`;
     }
-    axios.put(sub_http + params, values)
+    axios.put(main_http + params, values)
     .then(res => {
       console.log(res);
       if (res.data.err) {
@@ -82,7 +81,7 @@ const Customer = () => {
     })
     .catch(err => console.log(err));
   };
-  const header=['Name','Phone','Total hours package','Price/package','Email','Registered date']
+  const header=['Phone','Total hours package','Price/package','Email','Registered date']
 
   return (
     <div className="container-fluid min-vh-100">
@@ -92,11 +91,7 @@ const Customer = () => {
 			
 					<div className="col background1 container-fluid">
 						<div className="sticky-top border-bottom mb-4 container-fluid">
-              <Navbar href="/" goBack="true"/>
-            </div>
-
-            <div id="cards" className="container-fluid row gap-3">
-              <Card href="/customer/normal" card_title="Customer Information"/>
+              <Navbar href="/customer/normal" goBack="true"/>
             </div>
 
 						<div>
