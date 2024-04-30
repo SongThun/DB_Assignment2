@@ -128,14 +128,14 @@ background-color:#0e2238;
 padding:0;
 min-width:15rem;
 display:none;
-}
+} */
 
 #sidebar:not(.expand) .sidebar-item:hover .has-dropdown+.sidebar-dropdown{
 display:block;
 max-height:15em;
 width:100%;
 opacity:1;
-}
+} 
 #sidebar.expand .sidebar-link[data-bs-toggle="collapse"]::after{
 border:solid;
 border-width: 0 0.075rem 0.075rem 0;

@@ -8,7 +8,7 @@ import { useState } from 'react';
 const Sidebar = ({active_item}) => {
   const links = ["/employee", "/customer" , "/court-manage", "/training-program", "/product-manage"]
   const items = ["Employee", "Customer", "Court", "Training Program", "Product"];
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const navigate=useNavigate();
   const logoutHandle = () => {
     axios.post('http://localhost:8080/auth/logout')
@@ -27,9 +27,9 @@ const Sidebar = ({active_item}) => {
   })
   };
   return (
-    <aside id="sidebar">
+    <aside id="sidebar" className={open ? "expand" : ""}>
       <div className="d-flex">
-        <button id="toggle-btn" type="button" onClick={btn_click}>
+        <button id="toggle-btn" type="button">
           <i className="bx bxs-dashboard me-2"></i>
         </button>
         <div className="sidebar-logo">
