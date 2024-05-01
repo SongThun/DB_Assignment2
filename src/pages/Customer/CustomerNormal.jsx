@@ -67,9 +67,9 @@ const CustomerNormal = () => {
     })
     .catch(err => console.log(err));
   };
-  const labels=['Name','Phone']
-  const sortlabels=['Name','Phone']
-  const header=['Name','Phone']
+  const labels=['Phone','Name']
+  const sortlabels=['Phone','Name']
+  const header=['Phone','Name']
 
   return (
     <div className="container-fluid min-vh-100">

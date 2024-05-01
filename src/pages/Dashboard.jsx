@@ -16,6 +16,10 @@ const Dashboard = () => {
   const main_http='http://localhost:8080/dashboard/frequency/';
   const sub_http='http://localhost:8080/dashboard/GetCurrentShiftDetails/';
   const sub2_http='http://localhost:8080/dashboard/CalculateMembershipPercentage/';
+  const percent_http='http://localhost:8080/dashboard/card/membership-percentage/';
+  const number_cus_http='http://localhost:8080/dashboard/card/customer-number/';
+  const court_rev_http='http://localhost:8080/dashboard/card/court-revenue/';
+  const product_rev_http='http://localhost:8080/dashboard/card/product-revenue/';
   const header=['Court ID','Number of time rented']
   const labels=['Court ID','Number of time rented']
   const sortlabels=['Court ID','Number of time rented']
@@ -75,10 +79,10 @@ const Dashboard = () => {
                   <Card href="/membership" card_title="Membership"/>
                 </div>
                 <div className='d-inline align-items-center justify-content-center'>
-                    <CardDashboard icon="lni lni-home" size={70} name="Number Courts" />
-                    <CardDashboard icon="lni lni-customer" size={70} name="Number Customer"/>
-                    <CardDashboard icon="lni lni-handshake" size={70} name="Number Membership"/>
-                    <CardDashboard icon="lni lni-revenue" size={70} name="Total revenue"/>
+                    <CardDashboard icon="lni lni-home" size={70} name="Court Revenue" main_http={court_rev_http}  />
+                    <CardDashboard icon="lni lni-customer" size={70} name="Product Revenue" main_http={product_rev_http}/>
+                    <CardDashboard icon="lni lni-handshake" size={70} name="Percentage Membership" main_http={percent_http}/>
+                    <CardDashboard icon="lni lni-revenue" size={70} name="Total Customer" main_http={number_cus_http}/>
                 </div>
                 <div className="row">
                 <div className='col'>

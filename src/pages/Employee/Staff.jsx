@@ -208,7 +208,6 @@ const Staff = ({edit}) => {
             <div id="cards" className="container-fluid row gap-3">
               <Card href="/employee/shift" card_title="Receptionist's Shift"/>
               <Card href="/employee/shiftcleaning" card_title="Cleaner's Shift"/>
-              <Guide/>
             </div>
 
 						<div>
