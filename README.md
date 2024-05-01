@@ -13,24 +13,27 @@
 <br>
 ## Setup
 ### Client side
-In project folder, create vite-project
+
+#### 1. create a new Folder
+#### 2. open terminal at that folder
+#### 3. enter 
 ```
 npm create vite@latest
 ```
+Then you will be asked to enter the name of folder, just enter!
 > Choose React -> JavaScript
-
-
-initlize client
-```
-cd vite-project
-npm install
-npm run dev
-```
+and then do like the user manual of terminal
 
 install neccessary libraries
 ```
-install react-router-dom axios moment react-bootstrap react-bootstrap-time-picker
+install react-router-dom
+install axios
+install moment
+install react-bootstrap
+install react-bootstrap-time-picker
 ```
+#### 4. open the folder source of this code, then download folder 'src' in the github, replace the folder src in your computer with folder you have just download
+#### 5. download file index.html , package-lock.json , package.json, vite.config.js and then replace them with like the way you replace folder src. Remember that location is very important, so do not change the location when you replace file.
 
 overwrite the files then run with
 ```
@@ -38,7 +41,9 @@ npm run dev
 ```
 
 ### Server side
-In project folder, create server directory
+
+#### 6. Run and insert all database by 2 file of sql.
+#### 7. In project folder, create server directory
 ```
 mkdir server
 cd server
@@ -49,7 +54,7 @@ install dependencies
 npm install express mysql2 cors body-parser cookie-parser express-session
 npm install -D nodemon
 ```
-after that, copy all file in server.zip into folder server.
+#### 8.after that, copy all file in server.zip into folder server. 
 
 overwrite the files then run with 
 ```
