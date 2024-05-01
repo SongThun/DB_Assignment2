@@ -2,6 +2,11 @@ drop database if exists badminton_court_DB;
 create database badminton_court_DB;
 use badminton_court_DB;
 
+drop user if exists 'sManager'@'localhost';
+create user 'sManager'@'localhost' identified with caching_sha2_password by '123456';
+grant all privileges on badminton_court_db.* to 'sManager'@'localhost';
+flush privileges;
+
 create table staff(
 	staff_id char(8) primary key,
     ssn char(12) unique not null,
