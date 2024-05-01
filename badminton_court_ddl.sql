@@ -2,11 +2,6 @@ drop database if exists badminton_court_DB;
 create database badminton_court_DB;
 use badminton_court_DB;
 
-drop user if exists 'sManager'@'localhost';
-create user 'sManager'@'localhost' identified with caching_sha2_password by '123456';
-grant all privileges on badminton_court_db.* to 'sManager'@'localhost';
-flush privileges;
-
 create table staff(
 	staff_id char(8) primary key,
     ssn char(12) unique not null,
@@ -123,7 +118,7 @@ end//
 create procedure salary_view()
 reads sql data
 begin
-	select staff_id, name, staff_salary(staff_id)
+	select staff_id, name, staff_salary(staff_id),MONTHNAME(CURDATE()) AS salary_month
     from staff;
 end//
 
@@ -191,6 +186,7 @@ create table cus_receipt(
     manager_id char(8),
     customer_phone varchar(15),
     method varchar(14),
+    receipt_date date default (current_date),
     check (method in ("Online", "At the counter")),
     foreign key(manager_id) references facilities_manager(manager_id) on delete set null on update cascade,
     foreign key(customer_phone) references customer(phone) on delete set null on update cascade
@@ -212,7 +208,7 @@ reads sql data
 begin
 	return (select sum(quantity* 	(select product_price 
 									from product p 
-                                    where p.product_name= c.product_name)) 
+                                    where p.product_name= c.product_name))
 			from cus_order c 
 			where c.receipt_id=receipt_id);
 
@@ -286,34 +282,40 @@ begin
 	end if;
 end//
 
-create function remaining_free_hours(phone varchar(15))
+create function remaining_free_hours(phone varchar(15), rental_date date)
 returns int
 reads sql data
 begin
 	declare hours_used int;
 	declare total_hours int;
     DECLARE remaining_hours INT;
-    if (expired_date(phone)<=curdate()) then return null;
+    if (phone not in (select phone from membership)) then return null;
+    end if;
+    if (expired_date(phone)<=rental_date) then return null;
     end if;
     set total_hours= (select total_hours_package from membership m where m.phone=phone);
-    set hours_used = (select sum(hour(end_time)-hour(start_time)) from court_rental cr where cr.court_date <= expired_date(phone) and cr.cus_phone = phone);
-    set remaining_hours =  total_hours-hours_used;
+    set hours_used = (select sum(hour(end_time)-hour(start_time)) from court_rental cr where cr.court_date < rental_date and cr.cus_phone = phone);
+    set remaining_hours =  total_hours-if(hours_used is not null, hours_used, 0);
     return remaining_hours;
 end//
 
-create function total_rental_price(court_id smallint, start_time time, end_time time, phone varchar(15))
+create function total_rental_price(court_id smallint, court_date date, start_time time, end_time time, phone varchar(15))
 returns decimal(15,2)
 reads sql data
 begin
 	declare price decimal(15,2);
     declare mem bool;
-    set mem = (remaining_free_hours(phone)>0);
+    declare remaining_hours int;
+    declare total_hours int;
+    set remaining_hours = remaining_free_hours(phone, court_date);
+    set total_hours = hour(end_time) - hour(start_time);
+    set mem = (remaining_hours > 0);
+    set price = (select court_price from court c where c.court_id=court_id);
+    
     if mem=true then
-		set price=0;
-    else
-		set price = (select court_price from court c where c.court_id=court_id);
+		return 0 + if((total_hours - remaining_hours > 0), price * (total_hours - remaining_hours), 0);
 	end if;
-    return price* (hour(end_time) - hour(start_time));
+    return price * (hour(end_time) - hour(start_time));
 end //
 
 delimiter ;
@@ -485,4 +487,24 @@ begin
     from customer c join membership m where c.phone=m.phone
     order by m.registered_date desc;
 end \\
+
+create procedure MonthlyCourtRevenue()
+begin
+	select
+		sum(total_rental_price(court_id, court_date, start_time, end_time, cus_phone)) as total_revenue
+	from court_rental
+    where month(court_date) = month(current_date()) - 1;
+end \\
+
+create procedure MonthlyProductRevenue()
+begin
+	select sum(total_price(receipt_id)) as total_revenue
+    from cus_receipt
+    where month(receipt_date) = month(current_date()) - 1;
+end \\
+
+create procedure getCustomer()
+begin
+	SELECT count(distinct cus_phone) AS number_of_cus FROM court_rental WHERE month(court_date) = month(current_date()) - 1;
+end\\
 delimiter ; 
