@@ -501,11 +501,17 @@ begin
     where month(court_date) = month(current_date()) - 1;
 end \\
 
+
+
 create procedure MonthlyProductRevenue()
 begin
-	select sum(total_price(receipt_id)) as total_revenue
-    from cus_receipt
-    where month(receipt_date) = month(current_date()) - 1;
+	declare total_revenue int;
+    set total_revenue = (select sum(total_price(receipt_id))
+				from cus_receipt
+				where month(receipt_date) = month(current_date()) - 1);
+    if (total_revenue is NULL) then set total_revenue=0;
+	end if;
+	select total_revenue;
 end \\
 
 create procedure getCustomer()
