@@ -3,9 +3,9 @@ create database badminton_court_DB;
 use badminton_court_DB;
 
 drop user if exists 'sManager'@'localhost';
- create user 'sManager'@'localhost' identified with caching_sha2_password by '123456';
- grant all privileges on badminton_court_db.* to 'sManager'@'localhost';
- flush privileges;
+create user 'sManager'@'localhost' identified with caching_sha2_password by '123456';
+grant all privileges on badminton_court_db.* to 'sManager'@'localhost';
+flush privileges;
 
 create table staff(
 	staff_id char(8) primary key,
@@ -91,9 +91,9 @@ begin
     if job="Coach" or job="Facilites manager" then 
 		set hours_worked= null;
     elseif job="Cleaning staff" then 
-		set hours_worked= (select sum(hour(end_time)-hour(start_time)) from cleaner_works_on c where (month(shift_date)=month(curdate()) and c.cleaner_id=staff_id));
+		set hours_worked= (select sum(hour(end_time)-hour(start_time)) from cleaner_works_on c where (month(shift_date)=month(curdate())-1 and c.cleaner_id=staff_id));
     elseif job="Receptionist" then 
-		set hours_worked= (select sum(hour(end_time)-hour(start_time)) from shift sh where (month(shift_date)=month(curdate()) and sh.receptionist_id=staff_id));
+		set hours_worked= (select sum(hour(end_time)-hour(start_time)) from shift sh where (month(shift_date)=month(curdate())-1 and sh.receptionist_id=staff_id));
 	else set hours_worked= null;
     end if;
     return hours_worked;
@@ -123,7 +123,7 @@ end//
 create procedure salary_view()
 reads sql data
 begin
-	select staff_id, name, staff_salary(staff_id),MONTHNAME(CURDATE()) AS salary_month
+	select staff_id, name, staff_salary(staff_id),MONTHNAME(DATE_SUB(CURDATE(), INTERVAL 1 MONTH)) AS salary_month
     from staff;
 end//
 
