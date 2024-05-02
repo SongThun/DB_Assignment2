@@ -77,7 +77,7 @@ create table cleaner_works_on(
     primary key(shift_date, start_time, end_time, cleaner_id),
     foreign key(shift_date, start_time, end_time) references shift(shift_date,start_time, end_time) on delete cascade on update cascade,
     foreign key(cleaner_id) references cleaning_staff(cleaner_id) on delete cascade on update cascade,
-    check (area >=5 and area <=20)
+    check (area >=1 and area <=4)
 );
 
 delimiter //
@@ -177,7 +177,7 @@ reads sql data
 begin
 	return (select sum(cost*product_quantity) 
 			from manager_order o inner join manager_receipt r on o.receipt_id=r.receipt_id 
-            where month(r.receipt_date)=month(curdate()) and r.manager_id=manager_id);
+            where month(r.receipt_date)=month(curdate())-1 and r.manager_id=manager_id);
 end //
 delimiter ;
 
@@ -500,8 +500,6 @@ begin
 	from court_rental
     where month(court_date) = month(current_date()) - 1;
 end \\
-
-
 
 create procedure MonthlyProductRevenue()
 begin
